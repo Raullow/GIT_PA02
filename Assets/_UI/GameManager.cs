@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager thisManager;
     public enum GameState {  GameOver, GameStart, GameIdle};
     public static GameState CurrentState = GameState.GameIdle;
 

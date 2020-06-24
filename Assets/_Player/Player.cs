@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player thisPlayer;
     private CharacterController thisController;
     [SerializeField] private float JumpValue = 10;
     [SerializeField] private float Gravity = 10;
@@ -13,7 +14,10 @@ public class Player : MonoBehaviour
     private Transform playerMesh = null;
     private Animator thisAnimator = null;
 
+    public GameObject Explosion;
+
     private float moveSpeed = 0.05f;
+    public int lives = 3;
 
     void Start()
     {
@@ -52,6 +56,19 @@ public class Player : MonoBehaviour
 
         thisController.Move(MoveDirection);
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -1.5f, 1.5f), transform.position.y, transform.position.z);
+
+       
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Obstacle")
+        {
+            HUD.HUDManager.UpdateLives();
+            Destroy(other.gameObject);
+           GameObject spawnTemp =  Instantiate(Explosion, transform.position, transform.rotation) as GameObject;
+            Destroy(spawnTemp, 1);
+        }
     }
 
 }
